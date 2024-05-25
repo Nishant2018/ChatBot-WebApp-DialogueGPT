@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Website</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #100f0f;
+            color: #fcfafa;
+            position: relative;
+        }
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        header img {
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+        }
+        header h1 {
+            margin: 0;
+            flex-grow: 1;
+            text-align: center;
+            font-size: 2em;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #0056b3;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1em;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #ffd700;
+        }
+        main {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+        .content {
+            max-width: 800px;
+            margin-right: 20px;
+            position: relative;
+        }
+        .section {
+            background-color: rgba(9, 9, 9, 0.7);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(166, 156, 156, 0.959);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(166, 156, 156, 0.959);
+        }
+        .section h2 {
+            margin-top: 0;
+            font-size: 1.5em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        #chatbox-container {
+            width: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        #chatbox {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: scroll;
+            margin: 20px 0;
+            border-radius: 10px;
+            background-color: #fafafa;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        #user-input-container {
+            display: flex;
+        }
+        #user-input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+            max-width: 80%;
+            word-wrap: break-word;
+            display: inline-block;
+            text-align: left;
+        }
+        .user {
+            background-color: #0a0a0a;
+            align-self: flex-end;
+            color: #fff;
+        }
+        .bot {
+            background-color: #05f82d;
+            align-self: flex-start;
+            color: #000;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0056b3;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+        footer p {
+            margin: 0;
+        }
+        .watermark {
+            position: fixed;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            opacity: 0.30;
+            width: 55%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="{{ url_for('static', filename='logo-no-background.png') }}" alt="Logo">
+        <h1>Welcome to Chatbot Inc. (AIBuddy) 🤖</h1>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    <main>
+        <div class="content">
+            <img src="{{ url_for('static', filename='logo-no-background.png') }}" alt="Watermark" class="watermark">
+            <div class="section" id="home">
+                <h2>Home</h2>
+                <p>Welcome to Chatbot Inc., your destination for interactive AI-powered conversations. Our chatbot is designed to help you with information, entertainment, and much more.</p>
+            </div>
+            <div class="section" id="about">
+                <h2>About the Bot</h2>
+                <p>This chatbot is powered by advanced AI technology designed to understand and respond to your queries in a natural, conversational manner. Whether you're looking for information, a friendly chat, or some entertainment, the bot is here to help.</p>
+            </div>
+            <div class="section" id="features">
+                <h2>Features</h2>
+                <p><strong>Natural Conversations:</strong> Engages in realistic and human-like conversations.</p>
+                <p><strong>Information Retrieval:</strong> Provides information on a wide range of topics.</p>
+                <p><strong>Entertainment:</strong> Tells jokes, stories, and more.</p>
+            </div>
+            <div class="section" id="faq">
+                <h2>FAQ</h2>
+                <p><strong>Q:</strong> How does the chatbot work?<br><strong>A:</strong> The chatbot uses advanced natural language processing algorithms to understand and respond to your messages.</p>
+                <p><strong>Q:</strong> What kind of information can I ask?<br><strong>A:</strong> You can ask about a variety of topics including weather, news, general knowledge, and much more.</p>
+                <p><strong>Q:</strong> Is the chatbot free to use?<br><strong>A:</strong> Yes, the chatbot is completely free to use.</p>
+            </div>
+            <div class="section" id="contact">
+                <h2>Contact Information</h2>
+                <p>If you have any questions or feedback, please reach out to us at:</p>
+                <p>Email: support@chatbotinc.com</p>
+                <p>Phone: +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div id="chatbox-container">
+            <img src="{{ url_for('static', filename='logo-no-background.png') }}" alt="Watermark" class="watermark">
+            <div id="chatbox"></div>
+            <div id="user-input-container">
+                <input type="text" id="user-input" placeholder="Type a message..." onkeypress="handleKeyPress(event)">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Chatbot Inc. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function sendMessage() {
+            var userText = $("#user-input").val();
+            if (userText.trim() !== "") {
+                $("#chatbox").append('<div class="message user">' + userText + '</div>');
+                $("#user-input").val('');
+
+                $.get("/get", { msg: userText }).done(function(data) {
+                    $("#chatbox").append('<div class="message bot">' + data.response + '</div>');
+                    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+                });
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        $(document).ready(function() {
+            $("#user-input").focus();
+        });
+    </script>
+</body>
+</html>
